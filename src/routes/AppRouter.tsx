@@ -1,45 +1,34 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MainLayout from "../layouts/main-layout/MainLayout";
 import GroupsPage from "../pages/GroupsPage";
 import GroupPage from "../pages/GroupPage";
+import PageNotFound from "../pages/PageNotFound";
 
-// export const router = createBrowserRouter([
-//     {
-//         path: "/",
-//         element: <MainLayout />, // זה ה-Layout הראשי
-//         children: [
-//             { path: "", element: <HomePage /> }, // "/" - עמוד הבית
-//             { path: "about", element: <AboutPage /> }, // "/about"
-//         ],
-//     },
-//     {
-//         path: "*",
-//         element: <NotFoundPage />,
-//     },
-// ]);
+export const AppRouting = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Navigate to="groups" replace /> },
+      { path: "groups", element: <GroupsPage /> },
+      { path: "groups/:groupId", element: <GroupPage /> },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
+    ],
+  },
+  {
+    path: "/page-not-found",
+    element: <PageNotFound />,
+  },
 
-//
-// export const router = createBrowserRouter([{
-//     path: "/",
-//
-// }])
-
-export default function AppRouting() {
-  return (
-    <Routes>
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Route>
-
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Navigate to="/groups" replace />} />
-        <Route path="/groups" element={<GroupsPage />} />
-        <Route path="/groups/:groupId" element={<GroupPage />} />
-      </Route>
-    </Routes>
-  );
-}
+  { path: "*", element: <PageNotFound /> },
+]);

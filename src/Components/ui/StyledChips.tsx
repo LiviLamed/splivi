@@ -47,3 +47,17 @@ export const CurrentBoldUserChip = styled(Chip)(() => ({
   paddingTop: 8,
   paddingBottom: 8,
 }));
+
+export const SideBarChip = styled(Chip)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.light,
+  color: theme.palette.primary.contrastText,
+  fontWeight: "bold",
+  fontSize: "0.8rem",
+  height: 28,
+  borderRadius: 16,
+  padding: "0 8px",
+  border: `2px solid "#9356a6"`,
+  "& .MuiChip-label": {
+    padding: 0,
+  },
+}));

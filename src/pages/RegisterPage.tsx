@@ -107,7 +107,7 @@ const RegisterPage = () => {
         </LoadingButton>
         <Grid container>
           <Grid>
-            <Link to="/login">{"Already have an account? Login"}</Link>
+            <Link to="/auth/login">{"Already have an account? Login"}</Link>
           </Grid>
         </Grid>
       </Box>

@@ -1,11 +1,12 @@
 import { Box, styled } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "./Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { syncUsersWithStorage } from "../../redux/usersSlice";
 import { syncGroupsWithStorage } from "../../redux/groupsSlice";
 import { syncExpensesWithStorage } from "../../redux/expensesSlice";
+import Sidebar from "../../Components/groups/Sidebar";
 
 const StyledMainLayoutContainer = styled(Box)({
   display: "flex",
@@ -17,6 +18,11 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const currentUser = useAppSelector((state) => state.users.currentUser);
   const dispatch = useAppDispatch();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
@@ -37,14 +43,16 @@ export default function MainLayout() {
         dispatch(syncUsersWithStorage([...parsedUser])); // אם צריך
         // dispatch(login(parsedUser)); ← עדיף מפורש
       } else {
-        navigate("/login");
+        navigate("/auth/login");
       }
     }
   }, [currentUser]);
 
   return (
     <StyledMainLayoutContainer>
-      <Header />
+      <Header onToggleSidebar={handleToggleSidebar} />
+
+      <Sidebar open={isSidebarOpen} onClose={handleToggleSidebar} />
 
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
         <Outlet />

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { Box, Typography, Button, Stack, Dialog } from "@mui/material";
 import { User } from "../models/User";
@@ -23,23 +23,25 @@ export default function GroupPage() {
   const users = useAppSelector((state) => state.users.users);
   const allExpenses = useAppSelector((state) => state.expenses.expenses);
   const dispatch = useAppDispatch();
+  const currentGroup = groups.find((group) => group.id === groupId);
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-    }
-  }, [currentUser, navigate]);
+  if (!currentGroup) {
+    return <Navigate to="/page-not-found" />;
+  }
 
   const handleDelete = (id: string) => {
     dispatch(deleteExpense(id));
   };
 
-  const group = groups.find((group) => group.id === groupId);
-
-  if (!group || !groupId || !currentUser) {
-    return <Typography>Group not found.</Typography>;
+  if (!groupId || !currentUser) {
+    return <Navigate to="/page-not-found" />;
   }
 
+  const group = groups.find((group) => group.id === groupId);
+
+  if (!group) {
+    return <Navigate to="/page-not-found" />;
+  }
   const groupExpenses = allExpenses.filter(
     (expense) => expense.groupId === group.id,
   );

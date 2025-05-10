@@ -1,18 +1,18 @@
-import { createTheme } from '@mui/material';
-import { amber, grey, purple } from '@mui/material/colors';
+import { createTheme } from "@mui/material";
+import { amber, grey, purple } from "@mui/material/colors";
 
 const primary = {
-  main: '#9356a6',
+  main: "#9356a6",
   light: purple[100],
   dark: purple[700],
-  contrastText: '#fff',
+  contrastText: "#fff",
 };
 
 const secondary = {
-  main: '#1976d2',
-  light: '#42a5f5',
-  dark: '#1565c0',
-  contrastText: '#fff',
+  main: "#1976d2",
+  light: "#42a5f5",
+  dark: "#1565c0",
+  contrastText: "#fff",
 };
 
 export const theme = createTheme({
@@ -25,7 +25,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: ({ theme }) => ({
-          '&:hover': {
+          "&:hover": {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
             opacity: 0.7,
@@ -36,7 +36,7 @@ export const theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: () => ({
-          '&:hover': {
+          "&:hover": {
             backgroundColor: grey[500],
 
             opacity: 0.7,

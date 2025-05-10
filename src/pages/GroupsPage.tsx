@@ -11,7 +11,7 @@ export default function GroupsPage() {
 
   useEffect(() => {
     if (!currentUser) {
-      navigate("/login");
+      navigate("/auth/login");
     }
   }, [currentUser]);
 
