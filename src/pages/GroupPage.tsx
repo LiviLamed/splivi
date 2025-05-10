@@ -11,6 +11,7 @@ import {
   BoldUserChip,
   CurrentBoldUserChip,
 } from "../Components/ui/StyledChips";
+import { logout } from "../redux/usersSlice";
 
 export default function GroupPage() {
   const { groupId } = useParams();
@@ -33,7 +34,12 @@ export default function GroupPage() {
     dispatch(deleteExpense(id));
   };
 
-  if (!groupId || !currentUser) {
+  if (!currentUser) {
+    dispatch(logout());
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  if (!groupId) {
     return <Navigate to="/page-not-found" />;
   }
 
@@ -70,7 +76,7 @@ export default function GroupPage() {
       >
         <Button
           variant="outlined"
-          onClick={() => navigate("/groups")}
+          onClick={() => navigate("/")}
           sx={{
             borderColor: "#6c2bc6",
             color: "#6c2bc6",

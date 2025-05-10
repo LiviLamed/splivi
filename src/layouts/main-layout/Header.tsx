@@ -54,7 +54,7 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
             color="inherit"
             onClick={() => {
               dispatch(logout());
-              navigate("/login");
+              navigate("/auth/login", { replace: true });
             }}
             sx={{
               border: "1px solid white",

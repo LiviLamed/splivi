@@ -21,7 +21,29 @@ export const groupsSlice = createSlice({
       state.groups = action.payload;
       localStorage.setItem("groups", JSON.stringify(state.groups));
     },
+    removeGroup(state, action: PayloadAction<string>) {
+      state.groups = state.groups.filter(
+        (group) => group.id !== action.payload,
+      );
+      localStorage.setItem("groups", JSON.stringify(state.groups));
+    },
+    addGroup(state, action: PayloadAction<Group>) {
+      state.groups.push(action.payload);
+      localStorage.setItem("groups", JSON.stringify(state.groups));
+    },
+    updateGroup(state, action: PayloadAction<Group>) {
+      const updatedGroup = action.payload;
+      const index = state.groups.findIndex(
+        (group) => group.id === updatedGroup.id,
+      );
+
+      if (index !== -1) {
+        state.groups[index] = updatedGroup;
+        localStorage.setItem("groups", JSON.stringify(state.groups));
+      }
+    },
   },
 });
 
-export const { syncGroupsWithStorage } = groupsSlice.actions;
+export const { syncGroupsWithStorage, addGroup, updateGroup, removeGroup } =
+  groupsSlice.actions;

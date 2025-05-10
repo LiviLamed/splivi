@@ -3,10 +3,11 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { syncUsersWithStorage } from "../../redux/usersSlice";
+import { login, syncUsersWithStorage } from "../../redux/usersSlice";
 import { syncGroupsWithStorage } from "../../redux/groupsSlice";
 import { syncExpensesWithStorage } from "../../redux/expensesSlice";
 import Sidebar from "../../Components/groups/Sidebar";
+import { useLocation } from "react-router-dom";
 
 const StyledMainLayoutContainer = styled(Box)({
   display: "flex",
@@ -40,13 +41,19 @@ export default function MainLayout() {
 
       if (rawUser) {
         const parsedUser = JSON.parse(rawUser);
-        dispatch(syncUsersWithStorage([...parsedUser])); // אם צריך
-        // dispatch(login(parsedUser)); ← עדיף מפורש
+        dispatch(syncUsersWithStorage([...parsedUser]));
+        dispatch(login(parsedUser));
       } else {
         navigate("/auth/login");
       }
     }
   }, [currentUser]);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsSidebarOpen(false); // auto-close sidebar on route change
+  }, [location.pathname]);
 
   return (
     <StyledMainLayoutContainer>

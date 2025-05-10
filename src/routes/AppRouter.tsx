@@ -6,14 +6,15 @@ import MainLayout from "../layouts/main-layout/MainLayout";
 import GroupsPage from "../pages/GroupsPage";
 import GroupPage from "../pages/GroupPage";
 import PageNotFound from "../pages/PageNotFound";
+import HomePage from "../pages/HomePage";
 
 export const AppRouting = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
-      { index: true, element: <Navigate to="groups" replace /> },
-      { path: "groups", element: <GroupsPage /> },
+      { index: true, element: <Navigate to="home" replace /> },
+      { path: "home", element: <HomePage /> },
       { path: "groups/:groupId", element: <GroupPage /> },
     ],
   },
@@ -21,6 +22,7 @@ export const AppRouting = createBrowserRouter([
     path: "/auth",
     element: <AuthLayout />,
     children: [
+      { index: true, element: <Navigate to="login" replace /> },
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
     ],
