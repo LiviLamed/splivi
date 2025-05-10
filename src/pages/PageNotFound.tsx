@@ -79,7 +79,12 @@ const PageNotFound = () => {
             <Button
               href="/"
               variant="contained"
-              sx={{ m: 1, paddingBottom: "8px", width: "40%" }}
+              sx={{
+                m: 1,
+                paddingBottom: "8px",
+                width: "40%",
+                bgcolor: purple[600],
+              }}
               startIcon={<HomeIcon />}
             >
               Home

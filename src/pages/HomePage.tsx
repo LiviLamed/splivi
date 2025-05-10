@@ -1,11 +1,8 @@
 import { Box, Typography, Button, Stack } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import homePageGif from "../images/homePageGif.gif";
 
 export default function HomePage() {
-  const navigate = useNavigate();
-
-  // Variants for the staggered animation
   const textVariant = {
     hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
@@ -17,17 +14,18 @@ export default function HomePage() {
 
   return (
     <Box display="flex" height="100vh">
-      {/* Left Side - Image */}
+      {/* Left Side - GIF */}
       <Box
         flex={1}
         sx={{
-          backgroundImage: "url(https://picsum.photos/800/800)",
-          backgroundSize: "cover",
+          backgroundImage: `url(${homePageGif})`,
+          backgroundSize: "contain",
           backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       />
 
-      {/* Right Side - Animated Content */}
+      {/* Right Side - Content */}
       <Box
         flex={1}
         display="flex"
@@ -49,31 +47,50 @@ export default function HomePage() {
             initial="hidden"
             animate="visible"
             variants={textVariant}
-            style={{ marginBottom: index === 0 ? 20 : 16, maxWidth: 600 }}
+            style={{ marginBottom: index === 0 ? 32 : 16, maxWidth: 600 }}
           >
             <Typography
               variant={index === 0 ? "h2" : index === 1 ? "h5" : "body1"}
               color="text.secondary"
-              gutterBottom
               textAlign="center"
+              fontWeight={index === 0 ? "bold" : 500} // Title bold, others semi-bold
+              gutterBottom
             >
-              {text}
+              {index === 0 ? (
+                <>
+                  Welcome to{" "}
+                  <Typography
+                    variant="h2"
+                    component="span"
+                    color="primary.main"
+                    fontWeight="bold"
+                    sx={{ textTransform: "uppercase" }}
+                  >
+                    Splivi
+                  </Typography>
+                </>
+              ) : (
+                text
+              )}
             </Typography>
           </motion.div>
         ))}
 
+        {/* Buttons */}
         <Stack direction="row" spacing={2} mb={4}>
           <Button
             variant="contained"
             size="large"
-            onClick={() => navigate("/home")}
+            color="primary"
+            onClick={() => {}}
           >
             Go to Groups
           </Button>
           <Button
             variant="outlined"
             size="large"
-            onClick={() => navigate("/expenses")}
+            color="primary"
+            onClick={() => {}}
           >
             View Expenses
           </Button>

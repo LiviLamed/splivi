@@ -5,7 +5,7 @@ const primary = {
   main: "#9356a6",
   light: purple[100],
   dark: purple[700],
-  contrastText: "#fff",
+  contrastText: grey[800],
 };
 
 const secondary = {

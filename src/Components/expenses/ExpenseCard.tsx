@@ -36,7 +36,7 @@ export default function ExpenseCard({
 
   const debtsToPayer = calculateDebtsToPayer(expense);
 
-  const payerShare = expense.shares?.find(
+  const payerDebt = expense.debts?.find(
     (s) => s.userId === expense.paidBy,
   )?.amount;
 
@@ -64,17 +64,13 @@ export default function ExpenseCard({
           (currentUserId === payer.id ? (
             <CurrentBoldUserChip
               label={`${payer.name} : ₪${
-                payerShare !== undefined
-                  ? parseFloat(payerShare.toFixed(2))
-                  : "0"
+                payerDebt !== undefined ? parseFloat(payerDebt.toFixed(2)) : "0"
               }`}
             />
           ) : (
             <BoldUserChip
               label={`${payer.name} : ₪${
-                payerShare !== undefined
-                  ? parseFloat(payerShare.toFixed(2))
-                  : "0"
+                payerDebt !== undefined ? parseFloat(payerDebt.toFixed(2)) : "0"
               }`}
             />
           ))}

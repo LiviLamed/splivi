@@ -49,11 +49,13 @@ export const CurrentBoldUserChip = styled(Chip)(() => ({
 }));
 
 export const SideBarChip = styled(Chip)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.light,
+  backgroundColor: theme.palette.primary.light,
   color: theme.palette.primary.contrastText,
   fontWeight: "bold",
   fontSize: "0.8rem",
   height: 28,
+  borderWidth: 3,
+  borderColor: theme.palette.primary.contrastText,
   borderRadius: 16,
   padding: "0 8px",
   border: `2px solid "#9356a6"`,

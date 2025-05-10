@@ -8,7 +8,12 @@ export interface Expense {
   participants: string[];
   createdAt?: string;
   splitMode: "equal" | "custom";
-  shares: { userId: string; amount: number }[];
+  debts: Debt[];
+}
+
+export interface Debt {
+  userId: string;
+  amount: number;
 }
 
 export interface ExpenseFormData {

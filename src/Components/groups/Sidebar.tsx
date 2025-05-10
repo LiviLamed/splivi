@@ -27,6 +27,7 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import GroupForm from "./GroupForm";
 import { removeGroup } from "../../redux/groupsSlice";
+import { grey } from "@mui/material/colors";
 
 interface SidebarProps {
   open: boolean;
@@ -123,22 +124,21 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 <ListItem
                   disablePadding
                   sx={{
-                    border: "1px solid #6a4f7d",
-                    borderRadius: 2,
+                    borderRadius: 3,
                     mb: 1,
+                    bgcolor: grey[100],
+                    color: theme.palette.primary.dark,
+                    boxSizing: "border-box",
+                    border: `3px solid  ${grey[800]}`,
+
+                    "&:hover": {
+                      bgcolor: theme.palette.primary.light,
+                      color: theme.palette.primary.dark,
+                      border: `3px solid  ${theme.palette.primary.dark}`,
+                    },
                   }}
                 >
-                  <ListItemButton
-                    onClick={() => handleGroupClick(group.id)}
-                    sx={{
-                      "&:hover": {
-                        bgcolor: theme.palette.primary.light,
-                        color: theme.palette.primary.dark,
-                        border: `3px solid ${theme.palette.primary.dark}`,
-                        borderRadius: 2,
-                      },
-                    }}
-                  >
+                  <ListItemButton onClick={() => handleGroupClick(group.id)}>
                     {/*----*/}
                     <ListItemText
                       primary={
@@ -268,7 +268,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             onClick={() => {
               if (groupToDelete) {
                 navigate("/", { replace: true });
-
                 dispatch(removeGroup(groupToDelete.id));
                 setIsDeleteModalOpen(false);
               }

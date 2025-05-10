@@ -1,16 +1,4 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Autocomplete, Box, Button, Chip, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { Group } from "../../models/Group";
 import { useAppDispatch, useAppSelector } from "../../redux/store";

@@ -2,7 +2,7 @@ import { Expense } from "../models/Expense";
 
 export type DebtsToPayer = Record<string, number>;
 
-export function calculateEqualShares(
+export function calculateEqualDebts(
   expense: Expense,
 ): { userId: string; amount: number }[] {
   const { amount, participants } = expense;
@@ -18,18 +18,18 @@ export function calculateEqualShares(
 }
 
 export function calculateDebtsToPayer(expense: Expense): DebtsToPayer {
-  const { paidBy, splitMode, shares } = expense;
+  const { paidBy, splitMode, debts } = expense;
 
   const debtsToPayer: DebtsToPayer = {};
 
-  const sharesToUse =
-    splitMode === "equal" ? calculateEqualShares(expense) : shares;
+  const debtsToUse =
+    splitMode === "equal" ? calculateEqualDebts(expense) : debts;
 
-  if (!sharesToUse || !sharesToUse.length) return debtsToPayer;
+  if (!debtsToUse || !debtsToUse.length) return debtsToPayer;
 
-  sharesToUse.forEach((share) => {
-    if (share.userId === paidBy) return;
-    debtsToPayer[share.userId] = share.amount;
+  debtsToUse.forEach((debt) => {
+    if (debt.userId === paidBy) return;
+    debtsToPayer[debt.userId] = debt.amount;
   });
 
   console.log({ debtsToPayer });

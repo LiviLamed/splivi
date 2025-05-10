@@ -3,7 +3,6 @@ import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MainLayout from "../layouts/main-layout/MainLayout";
-import GroupsPage from "../pages/GroupsPage";
 import GroupPage from "../pages/GroupPage";
 import PageNotFound from "../pages/PageNotFound";
 import HomePage from "../pages/HomePage";

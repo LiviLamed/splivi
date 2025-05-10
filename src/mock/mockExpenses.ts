@@ -16,7 +16,7 @@ export function seedExpenses() {
       paidBy: users[0].id,
       participants: [users[0].id, users[1].id],
       splitMode: "equal",
-      shares: [
+      debts: [
         { userId: users[0].id, amount: 60 },
         { userId: users[1].id, amount: 60 },
       ],
@@ -30,7 +30,7 @@ export function seedExpenses() {
       paidBy: users[2].id,
       participants: [users[2].id, users[3].id],
       splitMode: "equal",
-      shares: [
+      debts: [
         { userId: users[2].id, amount: 40 },
         { userId: users[3].id, amount: 40 },
       ],
@@ -44,7 +44,7 @@ export function seedExpenses() {
       paidBy: users[4].id,
       participants: [users[2].id, users[4].id],
       splitMode: "equal",
-      shares: [
+      debts: [
         { userId: users[2].id, amount: 75 },
         { userId: users[4].id, amount: 75 },
       ],
@@ -58,7 +58,7 @@ export function seedExpenses() {
       paidBy: users[3].id,
       participants: [users[0].id, users[3].id, users[5].id],
       splitMode: "custom",
-      shares: [
+      debts: [
         { userId: users[0].id, amount: 66.67 },
         { userId: users[3].id, amount: 66.67 },
         { userId: users[5].id, amount: 66.66 },
@@ -73,7 +73,7 @@ export function seedExpenses() {
       paidBy: users[5].id,
       participants: [users[1].id, users[5].id],
       splitMode: "equal",
-      shares: [
+      debts: [
         { userId: users[1].id, amount: 20 },
         { userId: users[5].id, amount: 20 },
       ],
@@ -87,7 +87,7 @@ export function seedExpenses() {
       paidBy: users[2].id,
       participants: [users[2].id, users[3].id, users[5].id],
       splitMode: "equal",
-      shares: [
+      debts: [
         { userId: users[2].id, amount: 100 },
         { userId: users[3].id, amount: 100 },
         { userId: users[5].id, amount: 100 },
@@ -102,7 +102,7 @@ export function seedExpenses() {
       paidBy: users[4].id,
       participants: [users[0].id, users[2].id, users[4].id],
       splitMode: "custom",
-      shares: [
+      debts: [
         { userId: users[0].id, amount: 83.33 },
         { userId: users[2].id, amount: 83.33 },
         { userId: users[4].id, amount: 83.34 },

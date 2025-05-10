@@ -18,6 +18,9 @@ import { Expense } from "../../models/Expense";
 import { User } from "../../models/User";
 import { useAppDispatch } from "../../redux/store";
 import { addExpense, updateExpense } from "../../redux/expensesSlice";
+import { v4 as uuid } from "uuid";
+import { UsersSelect } from "./UsersSelect";
+import { ExpenseParticipants } from "./ExpenseParticipants";
 
 interface ExpenseFormProps {
   onClose: () => void;
@@ -56,17 +59,16 @@ export default function ExpenseForm({
       paidBy: currentUserId,
       participants: [currentUserId],
       splitMode: "equal",
-      shares: [],
+      debts: [],
       date: new Date().toISOString(),
     },
     mode: "onSubmit",
   });
 
   const selectedParticipants = watch("participants");
-  const paidBy = watch("paidBy");
   const splitMode = watch("splitMode");
   const amount = watch("amount");
-  const shares = watch("shares") || [];
+  const debts = watch("debts") || [];
 
   const handleToggle = (userId: string) => {
     const updated = selectedParticipants.includes(userId)
@@ -77,31 +79,30 @@ export default function ExpenseForm({
     trigger("participants");
   };
 
-  const handleCustomAmountChange = (userId: string, value: string) => {
-    const numericValue = parseFloat(value);
-    const updatedShares = shares.filter((s) => s.userId !== userId);
+  const handleCustomAmountChange = (userId: string, amount: string) => {
+    // amount in debts kept as number
+    const numericAmount = parseFloat(amount);
+    const updatedDebts = debts.filter((debt) => debt.userId !== userId);
 
-    if (!isNaN(numericValue) && numericValue > 0) {
-      updatedShares.push({ userId, amount: numericValue });
+    if (!isNaN(numericAmount) && numericAmount > 0) {
+      updatedDebts.push({ userId, amount: numericAmount });
     }
 
-    setValue("shares", updatedShares);
+    setValue("debts", updatedDebts);
   };
+  //
 
-  const getUserName = (userId: string) => {
-    return groupMembers.find((user) => user.id === userId)?.name || "";
-  };
-
-  const totalShared = shares.reduce((acc, share) => acc + share.amount, 0);
-  const remaining = Math.round((amount - totalShared) * 100) / 100;
+  const totalDebts = debts.reduce((acc, debt) => acc + debt.amount, 0);
+  const remaining = Math.round((amount - totalDebts) * 100) / 100;
 
   const onSubmit = (data: Expense) => {
-    let sharesToSave = data.shares;
+    let updatedDebts = data.debts;
 
     if (data.splitMode === "equal") {
       const perPerson =
+        // to keep only 2 decimal points
         Math.round((data.amount / data.participants.length) * 100) / 100;
-      sharesToSave = data.participants.map((userId) => ({
+      updatedDebts = data.participants.map((userId) => ({
         userId,
         amount: perPerson,
       }));
@@ -111,13 +112,13 @@ export default function ExpenseForm({
       ...data,
       groupId,
       date: expense?.date || new Date().toISOString(),
-      shares: sharesToSave,
+      debts: updatedDebts,
     };
 
     if (expense?.id) {
       dispatch(updateExpense(expenseToSave));
     } else {
-      expenseToSave.id = crypto.randomUUID();
+      expenseToSave.id = uuid();
       dispatch(addExpense(expenseToSave));
     }
 
@@ -145,32 +146,14 @@ export default function ExpenseForm({
         <CloseIcon />
       </IconButton>
 
-      <FormControl sx={{ mb: 2 }} error={!!errors.paidBy}>
-        <InputLabel id="paid-by-label">Paid By</InputLabel>
-        <Controller
-          name="paidBy"
-          control={control}
-          defaultValue={expense?.paidBy || currentUserId}
-          rules={{ required: "Payer is required" }}
-          render={({ field }) => (
-            <Select
-              {...field}
-              labelId="paid-by-label"
-              label="Paid By"
-              fullWidth
-            >
-              {groupMembers.map((user) => (
-                <MenuItem key={user.id} value={user.id}>
-                  {user.name + (user.id === currentUserId ? " (You)" : "")}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-        />
-        {errors.paidBy && (
-          <FormHelperText>{errors.paidBy.message}</FormHelperText>
-        )}
-      </FormControl>
+      {/*defaultValue-provides current useId as paidBy*/}
+      <UsersSelect
+        users={groupMembers}
+        control={control}
+        error={errors.paidBy}
+        currentUserId={currentUserId}
+        defaultValue={expense?.paidBy || currentUserId}
+      />
 
       <TextField
         label="Description"
@@ -215,96 +198,14 @@ export default function ExpenseForm({
         )}
       />
 
-      <Controller
-        name="participants"
+      <ExpenseParticipants
         control={control}
-        defaultValue={expense?.participants || [currentUserId]}
-        rules={{
-          validate: (value) => {
-            if (!value.length) {
-              return "Yeah, but who needs to pay?";
-            }
-
-            if (value.length === 1 && value[0] === paidBy) {
-              return "The payer owes money only to themself? Hmmm...";
-            }
-
-            return true;
-          },
-        }}
-        render={({ field }) => (
-          <Box mt={2}>
-            <Typography variant="subtitle1" fontWeight={600} mb={1}>
-              Split Between:
-            </Typography>
-
-            <Box display="flex" flexWrap="wrap">
-              {groupMembers.map((user) => {
-                const isSelected = field.value?.includes(user.id);
-
-                return (
-                  <FormControlLabel
-                    key={user.id}
-                    control={
-                      <Switch
-                        checked={isSelected}
-                        onChange={() => handleToggle(user.id)}
-                        color="primary"
-                      />
-                    }
-                    label={
-                      user.name + (user.id === currentUserId ? " (You)" : "")
-                    }
-                    sx={{ mr: 2 }}
-                  />
-                );
-              })}
-            </Box>
-
-            {errors.participants && (
-              <Typography color="error" variant="body2" mt={1}>
-                {errors.participants.message}
-              </Typography>
-            )}
-
-            {splitMode === "custom" && (
-              <Box mt={3}>
-                <Typography variant="subtitle2" fontWeight={500} mb={1}>
-                  Set custom amounts:
-                </Typography>
-
-                {selectedParticipants.map((userId) => {
-                  const currentAmount =
-                    shares.find((s) => s.userId === userId)?.amount || "";
-                  const isInvalid = currentAmount <= 0;
-                  return (
-                    <TextField
-                      key={userId}
-                      label={`${getUserName(userId)}`}
-                      type="number"
-                      sx={{ mb: 1, mr: 2, width: 160 }}
-                      defaultValue={currentAmount}
-                      onChange={(e) =>
-                        handleCustomAmountChange(userId, e.target.value)
-                      }
-                      inputProps={{ min: 0.01, step: "0.01" }}
-                      error={isInvalid}
-                      helperText={isInvalid ? "Must be greater than 0" : ""}
-                    />
-                  );
-                })}
-
-                <Typography
-                  variant="body2"
-                  color={remaining === 0 ? "green" : "error"}
-                  mt={1}
-                >
-                  Remaining: ₪{remaining.toFixed(2)}
-                </Typography>
-              </Box>
-            )}
-          </Box>
-        )}
+        error={errors.participants}
+        expense={expense}
+        groupMembers={groupMembers}
+        watch={watch}
+        handleToggle={handleToggle}
+        handleCustomAmountChange={handleCustomAmountChange}
       />
 
       <LoadingButton
