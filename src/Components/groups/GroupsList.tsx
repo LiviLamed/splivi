@@ -1,23 +1,74 @@
-import { Box } from "@mui/material";
+import { useAppSelector, useAppDispatch } from "../../redux/store";
+import { currentUserGroups } from "../../redux/selectors";
 import { Group } from "../../models/Group";
-import GroupCard from "./GroupCard";
+import { User } from "../../models/User";
+import { List, Box, Divider } from "@mui/material";
+import { GroupListItem } from "./GroupListItem";
+import { useNavigate } from "react-router-dom";
+import { removeGroup } from "../../redux/groupsSlice";
+import { theme } from "../../mui-theme/mui-theme";
 
-interface Props {
-  groups: Group[];
+interface GroupListProps {
+  onClose: () => void;
+  openEditModal: (group: Group | null) => void;
+  openDeleteModal: (group: Group) => void;
 }
 
-export default function GroupList({ groups }: Props) {
+export function GroupsList({
+  onClose,
+  openEditModal,
+  openDeleteModal,
+}: GroupListProps) {
+  const groups: Group[] = useAppSelector(currentUserGroups);
+  const users: User[] = useAppSelector((state) => state.users.users);
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleGroupClick = (groupId: string) => {
+    navigate(`/groups/${groupId}`);
+  };
+
+  const groupsWithDisplayInfo = groups.map((group) => {
+    const membersExcludingCurrent = group.members.filter(
+      (id) => id !== currentUser?.id,
+    );
+    const membersToDisplay = membersExcludingCurrent.slice(0, 2);
+    const memberNames = users
+      .filter((user) => membersToDisplay.includes(user.id))
+      .map((user) => user.name);
+
+    const hasMoreMembers = membersExcludingCurrent.length > 2;
+
+    return {
+      ...group,
+      memberNames,
+      hasMoreMembers,
+      totalMembers: group.members.length,
+    };
+  });
+
   return (
-    <Box
-      display="flex"
-      flexWrap="wrap"
-      gap={3}
-      justifyContent="center"
-      sx={{ mt: 4 }}
+    <List
+      sx={{
+        maxHeight: "calc(100vh - 100px)",
+        overflowY: "auto",
+        "&::-webkit-scrollbar": { display: "none" },
+        "-ms-overflow-style": "none",
+        "scrollbar-width": "none",
+      }}
     >
-      {groups.map((group) => (
-        <GroupCard key={group.id} group={group} />
+      {groupsWithDisplayInfo.map((group, index) => (
+        <Box key={group.id}>
+          <GroupListItem
+            group={group}
+            onGroupClick={handleGroupClick}
+            onEditGroup={() => openEditModal(group)}
+            onDeleteGroup={() => openDeleteModal(group)}
+          />
+          {index < groupsWithDisplayInfo.length - 1 && <Divider />}
+        </Box>
       ))}
-    </Box>
+    </List>
   );
 }

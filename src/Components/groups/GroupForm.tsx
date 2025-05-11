@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addGroup, updateGroup } from "../../redux/groupsSlice";
 import { v4 as uuid } from "uuid";
+import { LoadingButton } from "@mui/lab";
 
 interface GroupFormProps {
   onClose: () => void;
@@ -17,6 +18,7 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
   const navigate = useNavigate();
   const users = useAppSelector((state) => state.users.users);
   const currentUser = useAppSelector((state) => state.users.currentUser);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -50,7 +52,7 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
       alert("You must select at least one additional member.");
       return;
     }
-
+    setIsLoading(true);
     const groupId = groupToEdit?.id || uuid();
     const newGroup: Group = {
       id: groupId,
@@ -67,6 +69,7 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
     reset();
     setSelectedUserIds([]);
     onClose();
+    setIsLoading(false);
     navigate(`/groups/${groupId}`);
   };
 
@@ -122,7 +125,7 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
               key={id}
               label={user.name}
               onDelete={() => handleRemoveUser(id)}
-              color="secondary"
+              color={"primary"}
             />
           );
         })}
@@ -131,9 +134,13 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
       {/* Action Buttons */}
       <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
         <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+        <LoadingButton
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+          loading={isLoading}
+        >
           {groupToEdit ? "Update Group" : "Create Group"}
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );

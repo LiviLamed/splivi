@@ -12,6 +12,7 @@ import {
   CurrentBoldUserChip,
 } from "../Components/ui/StyledChips";
 import { logout } from "../redux/usersSlice";
+import { theme } from "../mui-theme/mui-theme";
 
 export default function GroupPage() {
   const { groupId } = useParams();
@@ -56,6 +57,17 @@ export default function GroupPage() {
     .map((id) => users.find((user) => user.id === id))
     .filter((user): user is User => user !== undefined);
 
+  const currentUserTotalPaid = groupExpenses
+    .filter((expense) => expense.paidBy === currentUser.id)
+    .reduce((acc, expense) => acc + expense.amount, 0);
+
+  const currentUserTotalDebts = groupExpenses
+    .flatMap((expense) => expense.debts)
+    .filter((debt) => debt.userId === currentUser.id)
+    .reduce((acc, debt) => acc + debt.amount, 0);
+
+  const currentUserBalance = currentUserTotalPaid - currentUserTotalDebts;
+
   return (
     <Box
       sx={{
@@ -74,27 +86,68 @@ export default function GroupPage() {
         paddingTop={5}
         paddingBottom={0}
       >
-        <Button
-          variant="outlined"
-          onClick={() => navigate("/")}
-          sx={{
-            borderColor: "#6c2bc6",
-            color: "#6c2bc6",
-            fontWeight: 600,
-            backgroundColor: "transparent",
-            "&:hover": {
-              borderColor: "#4b007d",
-              color: "#4b007d",
-              backgroundColor: "transparent",
-            },
-          }}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={0}
+          paddingLeft={20}
+          paddingRight={20}
+          paddingTop={5}
+          paddingBottom={0}
         >
-          ← Back to My Groups
-        </Button>
+          <Button
+            variant="outlined"
+            onClick={() => navigate("/")}
+            sx={{
+              borderColor: "#6c2bc6",
+              color: "#6c2bc6",
+              fontWeight: 600,
+              backgroundColor: "transparent",
+              "&:hover": {
+                borderColor: "#4b007d",
+                color: "#4b007d",
+                backgroundColor: "transparent",
+              },
+            }}
+          >
+            ← Home
+          </Button>
+        </Box>
+        <Box display="flex" alignItems="center" gap={4}>
+          <Typography variant="h5" fontWeight="bold">
+            {group.name}
+          </Typography>
 
-        <Typography variant="h5" fontWeight="bold">
-          {group.name}
-        </Typography>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Typography
+              variant="h6"
+              fontWeight="normal"
+              sx={{ color: theme.palette.text.primary }}
+            >
+              Balance:
+            </Typography>
+
+            <Typography
+              variant="h3"
+              fontWeight="bold"
+              sx={{
+                color:
+                  currentUserBalance >= 0
+                    ? theme.palette.primary.main
+                    : "#E53935", // Negative balance color
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+              }}
+            >
+              {currentUserBalance.toFixed(2)}
+              <Typography variant="h5" fontWeight="bold" component="span">
+                ₪
+              </Typography>
+            </Typography>
+          </Box>
+        </Box>
 
         <Box display="flex" gap={2}>
           <Button

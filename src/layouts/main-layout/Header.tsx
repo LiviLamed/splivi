@@ -14,9 +14,13 @@ import { theme } from "../../mui-theme/mui-theme";
 
 interface HeaderProps {
   onToggleSidebar: () => void;
+  isSidebarOpen: boolean;
 }
 
-export default function Header({ onToggleSidebar }: HeaderProps) {
+export default function Header({
+  onToggleSidebar,
+  isSidebarOpen,
+}: HeaderProps) {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
@@ -24,14 +28,16 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
   return (
     <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main }}>
       <Toolbar sx={{ justifyContent: "space-between", px: 6 }}>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          onClick={onToggleSidebar}
-        >
-          <MenuIcon />
-        </IconButton>
+        {!isSidebarOpen && (
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={onToggleSidebar}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography variant="h5" sx={{ fontWeight: 500, ml: 14 }}>
           Splivi
         </Typography>

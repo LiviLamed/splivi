@@ -6,12 +6,13 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { login, syncUsersWithStorage } from "../../redux/usersSlice";
 import { syncGroupsWithStorage } from "../../redux/groupsSlice";
 import { syncExpensesWithStorage } from "../../redux/expensesSlice";
-import Sidebar from "../../Components/groups/Sidebar";
+import Sidebar from "../../Components/SideBar/Sidebar";
 import { useLocation } from "react-router-dom";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 const StyledMainLayoutContainer = styled(Box)({
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
   height: "100vh", // added to allow proper height for scrollable content
 });
 
@@ -19,7 +20,7 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const currentUser = useAppSelector((state) => state.users.currentUser);
   const dispatch = useAppDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -51,17 +52,16 @@ export default function MainLayout() {
 
   const location = useLocation();
 
-  useEffect(() => {
-    setIsSidebarOpen(false); // auto-close sidebar on route change
-  }, [location.pathname]);
-
   return (
     <StyledMainLayoutContainer>
-      <Header onToggleSidebar={handleToggleSidebar} />
-
       <Sidebar open={isSidebarOpen} onClose={handleToggleSidebar} />
 
       <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+        <Header
+          onToggleSidebar={handleToggleSidebar}
+          isSidebarOpen={isSidebarOpen}
+        />
+
         <Outlet />
       </Box>
     </StyledMainLayoutContainer>

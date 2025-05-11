@@ -84,7 +84,7 @@ export default function HomePage() {
             color="primary"
             onClick={() => {}}
           >
-            Go to Groups
+            About
           </Button>
           <Button
             variant="outlined"
@@ -92,7 +92,7 @@ export default function HomePage() {
             color="primary"
             onClick={() => {}}
           >
-            View Expenses
+            Get Premium
           </Button>
         </Stack>
       </Box>

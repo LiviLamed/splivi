@@ -2,17 +2,17 @@ import { createTheme } from "@mui/material";
 import { amber, grey, purple } from "@mui/material/colors";
 
 const primary = {
-  main: "#9356a6",
-  light: purple[100],
-  dark: purple[700],
-  contrastText: grey[800],
+  main: "#7b2b74",
+  light: "#613a51",
+  dark: "#9a416e",
+  contrastText: "#fff",
 };
 
 const secondary = {
-  main: "#1976d2",
-  light: "#42a5f5",
-  dark: "#1565c0",
-  contrastText: "#fff",
+  main: "#b0b0b0",
+  light: "#d0d0d0",
+  dark: "#909090",
+  contrastText: grey[800],
 };
 
 export const theme = createTheme({
