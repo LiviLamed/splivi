@@ -13,6 +13,7 @@ import {
 } from "../Components/ui/StyledChips";
 import { logout } from "../redux/usersSlice";
 import { theme } from "../mui-theme/mui-theme";
+import { grey, purple } from "@mui/material/colors";
 
 export default function GroupPage() {
   const { groupId } = useParams();
@@ -67,7 +68,6 @@ export default function GroupPage() {
     .reduce((acc, debt) => acc + debt.amount, 0);
 
   const currentUserBalance = currentUserTotalPaid - currentUserTotalDebts;
-
   return (
     <Box
       sx={{
@@ -78,87 +78,117 @@ export default function GroupPage() {
     >
       <Box
         display="flex"
-        justifyContent="space-between"
         alignItems="center"
-        mb={0}
-        paddingLeft={20}
-        paddingRight={20}
-        paddingTop={5}
-        paddingBottom={0}
+        justifyContent="space-between"
+        paddingLeft={4}
+        paddingRight={4}
+        paddingTop={3}
+        paddingBottom={2}
+        borderBottom={3}
+        sx={{ bgcolor: grey[400], height: 36 }}
+        height={42}
       >
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={0}
-          paddingLeft={20}
-          paddingRight={20}
-          paddingTop={5}
-          paddingBottom={0}
-        >
-          <Button
-            variant="outlined"
-            onClick={() => navigate("/")}
+        <Box display="flex" alignItems="center" gap={2}>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            ml={4}
             sx={{
-              borderColor: "#6c2bc6",
-              color: "#6c2bc6",
-              fontWeight: 600,
-              backgroundColor: "transparent",
-              "&:hover": {
-                borderColor: "#4b007d",
-                color: "#4b007d",
-                backgroundColor: "transparent",
-              },
+              textTransform: "capitalize",
+              color: purple[800],
             }}
           >
-            ← Home
-          </Button>
-        </Box>
-        <Box display="flex" alignItems="center" gap={4}>
-          <Typography variant="h5" fontWeight="bold">
             {group.name}
           </Typography>
-
-          <Box display="flex" alignItems="center" gap={1}>
-            <Typography
-              variant="h6"
-              fontWeight="normal"
-              sx={{ color: theme.palette.text.primary }}
-            >
-              Balance:
-            </Typography>
-
-            <Typography
-              variant="h3"
-              fontWeight="bold"
-              sx={{
-                color:
-                  currentUserBalance >= 0
-                    ? theme.palette.primary.main
-                    : "#E53935", // Negative balance color
-                display: "flex",
-                alignItems: "center",
-                gap: 0.5,
-              }}
-            >
-              {currentUserBalance.toFixed(2)}
-              <Typography variant="h5" fontWeight="bold" component="span">
-                ₪
-              </Typography>
-            </Typography>
-          </Box>
         </Box>
 
-        <Box display="flex" gap={2}>
+        {/*  Balance */}
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={1}
+          sx={{ marginRight: "80px" }}
+        >
+          <Typography
+            variant="h6"
+            fontWeight="normal"
+            sx={{
+              color: theme.palette.primary.main,
+              minWidth: "80px",
+            }}
+            mr={8}
+          >
+            Balance:
+          </Typography>
+
+          <Typography
+            variant="h3"
+            fontWeight="bold"
+            sx={{
+              border: "2px solid black",
+              borderRadius: "8px",
+              width: "4px 8px",
+              minWidth: "300px",
+              textAlign: "center",
+              justifyContent: "flex-end",
+              bgcolor: grey[100],
+              color:
+                currentUserBalance >= 0
+                  ? theme.palette.primary.dark
+                  : "#800020", // negative balance color
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            {currentUserBalance.toFixed(2)}
+            <Typography variant="h5" fontWeight="bold" component="span">
+              ₪
+            </Typography>
+          </Typography>
+        </Box>
+      </Box>
+
+      {/*Group members  + add expense */}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        paddingLeft={8}
+        paddingRight={24}
+        paddingTop={2}
+        paddingBottom={3}
+        minHeight={42}
+        sx={{
+          borderBottom: "3px solid black",
+          bgcolor: purple[100],
+          height: 36,
+        }}
+      >
+        <Box display="flex" alignItems="center" gap={2}>
+          <Typography variant="h6">Group Members:</Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap">
+            {groupMembers.map((member) => {
+              const ChipComponent =
+                member.id === currentUser.id
+                  ? CurrentBoldUserChip
+                  : BoldUserChip;
+              return <ChipComponent key={member.id} label={member.name} />;
+            })}
+          </Stack>
+        </Box>
+
+        <Box>
           <Button
             sx={{
-              borderColor: "#6c2bc6",
-              color: "#6c2bc6",
+              borderColor: theme.palette.primary.main,
+              color: theme.palette.primary.main,
+              border: " 3px solid",
               fontWeight: 600,
-              backgroundColor: "transparent",
+              backgroundColor: grey[300],
               "&:hover": {
-                borderColor: "#4b007d",
-                color: "#4b007d",
+                borderColor: purple[500],
+                color: purple[700],
                 backgroundColor: "transparent",
               },
             }}
@@ -171,29 +201,6 @@ export default function GroupPage() {
             Add Expense
           </Button>
         </Box>
-      </Box>
-
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        sx={{
-          borderBottom: "1px solid black",
-          pb: 2,
-          mb: 2,
-          mt: 2,
-        }}
-      >
-        <Typography variant="h6" sx={{ ml: 8, mb: 0 }}>
-          Group Members:
-        </Typography>
-        <Stack direction="row" spacing={1} flexWrap="wrap">
-          {groupMembers.map((member) => {
-            const ChipComponent =
-              member.id === currentUser.id ? CurrentBoldUserChip : BoldUserChip;
-            return <ChipComponent key={member.id} label={member.name} />;
-          })}
-        </Stack>
       </Box>
 
       <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
@@ -209,6 +216,7 @@ export default function GroupPage() {
         />
       </Box>
 
+      {/* ✅ DIALOG */}
       <Dialog
         open={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}

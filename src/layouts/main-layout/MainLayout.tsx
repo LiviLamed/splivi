@@ -8,12 +8,11 @@ import { syncGroupsWithStorage } from "../../redux/groupsSlice";
 import { syncExpensesWithStorage } from "../../redux/expensesSlice";
 import Sidebar from "../../Components/SideBar/Sidebar";
 import { useLocation } from "react-router-dom";
-import { useTheme, useMediaQuery } from "@mui/material";
 
 const StyledMainLayoutContainer = styled(Box)({
   display: "flex",
   flexDirection: "row",
-  height: "100vh", // added to allow proper height for scrollable content
+  height: "100vh",
 });
 
 export default function MainLayout() {
@@ -49,8 +48,6 @@ export default function MainLayout() {
       }
     }
   }, [currentUser]);
-
-  const location = useLocation();
 
   return (
     <StyledMainLayoutContainer>

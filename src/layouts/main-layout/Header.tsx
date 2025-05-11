@@ -11,6 +11,8 @@ import { logout } from "../../redux/usersSlice";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { theme } from "../../mui-theme/mui-theme";
+import { grey, purple } from "@mui/material/colors";
+import { useLocation } from "react-router-dom";
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -24,6 +26,7 @@ export default function Header({
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main }}>
@@ -38,6 +41,27 @@ export default function Header({
             <MenuIcon />
           </IconButton>
         )}
+
+        {location.pathname !== "/" && location.pathname !== "/home" && (
+          <Button
+            variant="outlined"
+            onClick={() => navigate("/")}
+            sx={{
+              borderColor: grey[100],
+              color: grey[100],
+              fontWeight: 600,
+              backgroundColor: "transparent",
+              "&:hover": {
+                borderColor: purple[500],
+                color: purple[500],
+                backgroundColor: grey[300],
+              },
+            }}
+          >
+            ← Home
+          </Button>
+        )}
+
         <Typography variant="h5" sx={{ fontWeight: 500, ml: 14 }}>
           Splivi
         </Typography>
