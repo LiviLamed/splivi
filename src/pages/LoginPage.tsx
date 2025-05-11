@@ -28,7 +28,7 @@ export default function LoginPage() {
     );
 
     if (!existingUser) {
-      alert("Invalid email or password.");
+      alert("Invalid email or password");
       return;
     }
 
