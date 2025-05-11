@@ -1,4 +1,3 @@
-// mockUsers.ts
 import { User } from "../models/User";
 import { store } from "../redux/store";
 import { syncUsersWithStorage } from "../redux/usersSlice";

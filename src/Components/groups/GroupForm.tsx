@@ -26,7 +26,7 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
     },
   });
 
-  // create state of selected user ids - if there's groupToEdit take default values - make sure it's not currentUser
+  // create state of selected user ids - if there's groupToEdit take default values - filters out currentUser
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>(
     groupToEdit?.members.filter((id) => id !== currentUser?.id) || [],
   );
@@ -75,7 +75,6 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
 
   return (
     <Box>
-      {/* Group Name Field */}
       <Controller
         name="groupName"
         control={control}
@@ -92,7 +91,6 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
         )}
       />
 
-      {/* User Selection Autocomplete */}
       <Autocomplete
         options={availableUsers}
         getOptionLabel={(option) => option.name}
@@ -109,14 +107,11 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
         )}
       />
 
-      {/* Display Selected Members Chips */}
       <Box display="flex" flexWrap="wrap" gap={1} mt={2}>
-        {/* Always show current user chip */}
         {currentUser && (
           <Chip label={currentUser.name + " (You)"} color="primary" />
         )}
 
-        {/* Show selected members */}
         {selectedUserIds.map((id) => {
           const user = users.find((u) => u.id === id);
           if (!user) return null;
@@ -131,7 +126,6 @@ export default function GroupForm({ onClose, groupToEdit }: GroupFormProps) {
         })}
       </Box>
 
-      {/* Action Buttons */}
       <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
         <Button onClick={onClose}>Cancel</Button>
         <LoadingButton

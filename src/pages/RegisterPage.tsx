@@ -17,7 +17,9 @@ const RegisterPage = () => {
   const users = useAppSelector((store) => store.users.users);
 
   function send(user: Omit<User, "id">) {
-    const existing = users.find((u) => u.email === user.email);
+    const existing = users.find(
+      (existingUser) => existingUser.email === user.email,
+    );
     if (existing) {
       alert("A user with this email already exists.");
       return;

@@ -42,7 +42,7 @@ export default function ExpenseCard({
 
   return (
     <StyledCard>
-      {/* Description and Date */}
+      {/* description + date */}
       <Box
         display="flex"
         flexDirection="column"
@@ -77,7 +77,7 @@ export default function ExpenseCard({
       </Box>
       <ExpenseCardActionButtons onDelete={onDelete} onEdit={onEdit} />
 
-      {/* Participants and Amount */}
+      {/* participants + amount */}
       <Box
         display="flex"
         flexDirection="column"

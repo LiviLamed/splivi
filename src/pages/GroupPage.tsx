@@ -102,7 +102,7 @@ export default function GroupPage() {
           </Typography>
         </Box>
 
-        {/*  Balance */}
+        {/*  balance */}
         <Box
           display="flex"
           alignItems="center"
@@ -135,7 +135,7 @@ export default function GroupPage() {
               color:
                 currentUserBalance >= 0
                   ? theme.palette.primary.dark
-                  : "#800020", // negative balance color
+                  : "#800020",
               display: "flex",
               alignItems: "center",
               gap: 0.5,
@@ -216,7 +216,6 @@ export default function GroupPage() {
         />
       </Box>
 
-      {/* ✅ DIALOG */}
       <Dialog
         open={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}

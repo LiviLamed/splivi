@@ -14,7 +14,6 @@ export default function HomePage() {
 
   return (
     <Box display="flex" height="100vh">
-      {/* Left Side - GIF */}
       <Box
         flex={1}
         sx={{
@@ -25,7 +24,6 @@ export default function HomePage() {
         }}
       />
 
-      {/* Right Side - Content */}
       <Box
         flex={1}
         display="flex"
@@ -76,7 +74,6 @@ export default function HomePage() {
           </motion.div>
         ))}
 
-        {/* Buttons */}
         <Stack direction="row" spacing={2} mb={4}>
           <Button
             variant="contained"

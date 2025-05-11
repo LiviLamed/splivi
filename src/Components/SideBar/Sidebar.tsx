@@ -106,7 +106,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             color: "#fff",
           }}
         >
-          {/* Header Section */}
           <Box
             display="flex"
             justifyContent="space-between"
@@ -140,7 +139,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             </IconButton>
           </Box>
 
-          {/* Content Section */}
           <Box
             sx={{
               flexGrow: 1,

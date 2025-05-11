@@ -24,7 +24,6 @@ export function ExpenseCardActionButtons({
         transition: "opacity 0.3s ease-in-out",
         pointerEvents: "none",
 
-        // כשהכרטיס עצמו ב-hover
         ".MuiPaper-root:hover &": {
           opacity: 1,
           pointerEvents: "auto",
@@ -33,7 +32,7 @@ export function ExpenseCardActionButtons({
     >
       <IconButton
         onClick={onEdit}
-        size="medium" // ← מוגדל
+        size="medium"
         sx={{
           color: "grey.600",
           "&:hover": {

@@ -3,7 +3,7 @@ export interface Expense {
   groupId: string;
   description: string;
   amount: number;
-  date: string; // ISO string
+  date: string;
   paidBy: string;
   participants: string[];
   createdAt?: string;

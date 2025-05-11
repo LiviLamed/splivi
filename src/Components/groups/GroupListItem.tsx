@@ -89,11 +89,11 @@ export function GroupListItem({
                 mt={2}
                 display="flex"
                 alignItems="center"
-                justifyContent="space-between" // Added: Separate chips and icons
+                justifyContent="space-between"
                 flexWrap="wrap"
                 gap={0.5}
               >
-                {/* Chips Section */}
+                {/* chips  */}
                 <Box display="flex" gap={0.5} flexWrap="wrap">
                   {group.memberNames.map((name, i) => (
                     <SideBarChip
@@ -113,7 +113,7 @@ export function GroupListItem({
                   )}
                 </Box>
 
-                {/* Icons Section */}
+                {/* Icons  */}
                 <Box
                   display="flex"
                   flexDirection="column"
@@ -167,7 +167,6 @@ export function GroupListItem({
                   </Box>
                 </Box>
               </Box>
-              {/* END NEW */}
             </Box>
           }
         />
