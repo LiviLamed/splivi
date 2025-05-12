@@ -1,26 +1,15 @@
-import { SpliviState } from "./store";
-
-export const currentUserGroups = (state: SpliviState) => {
-  const currentUserId = state.users.currentUser?.id;
-  if (!currentUserId) return [];
-
-  return state.groups.groups.filter((group) =>
-    group.members.includes(currentUserId),
-  );
-};
-
 export function optimizeTransaction(balances: Record<string, number>) {
   const transactions: { from: string; to: string; amount: number }[] = [];
 
   const creditors = Object.entries(balances)
     .filter(([_, balance]) => balance > 0)
     .map(([userId, balance]) => ({ userId, balance }))
-    .sort((a, b) => b.balance - a.balance); // Sort descending by balance
+    .sort((a, b) => b.balance - a.balance); // Sort by balance - descending
 
   const debtors = Object.entries(balances)
     .filter(([_, balance]) => balance < 0)
     .map(([userId, balance]) => ({ userId, balance }))
-    .sort((a, b) => a.balance - b.balance);
+    .sort((a, b) => a.balance - b.balance); // Sort descending -> negative numbers
 
   let creditorsIndex = 0;
   let debtorsIndex = 0;

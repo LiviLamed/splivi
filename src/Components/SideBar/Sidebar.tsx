@@ -184,11 +184,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           <Button
             color="error"
             onClick={() => {
-              if (groupToDelete) {
-                navigate("/", { replace: true });
-                dispatch(removeGroup(groupToDelete.id));
-                setIsDeleteModalOpen(false);
-              }
+              console.log({ groups });
+              dispatch(removeGroup(groupToDelete.id));
+              setIsDeleteModalOpen(false);
+              navigate("/", { replace: true });
             }}
           >
             Delete Group
