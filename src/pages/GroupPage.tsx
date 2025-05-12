@@ -84,8 +84,7 @@ export default function GroupPage() {
         paddingRight={4}
         paddingTop={3}
         paddingBottom={2}
-        borderBottom={3}
-        sx={{ bgcolor: grey[400], height: 36 }}
+        sx={{ bgcolor: grey[300], height: 36 }}
         height={42}
       >
         <Box display="flex" alignItems="center" gap={2}>
@@ -95,7 +94,7 @@ export default function GroupPage() {
             ml={4}
             sx={{
               textTransform: "capitalize",
-              color: purple[800],
+              color: theme.palette.primary.main,
             }}
           >
             {group.name}
@@ -110,28 +109,17 @@ export default function GroupPage() {
           sx={{ marginRight: "80px" }}
         >
           <Typography
-            variant="h6"
-            fontWeight="normal"
-            sx={{
-              color: theme.palette.primary.main,
-              minWidth: "80px",
-            }}
-            mr={8}
-          >
-            Balance:
-          </Typography>
-
-          <Typography
             variant="h3"
             fontWeight="bold"
             sx={{
-              border: "2px solid black",
-              borderRadius: "8px",
+              border: "2px solid ",
+              borderColor: theme.palette.primary.main,
+              borderRadius: 3,
               width: "4px 8px",
               minWidth: "300px",
               textAlign: "center",
               justifyContent: "flex-end",
-              bgcolor: grey[100],
+              bgcolor: grey[200],
               color:
                 currentUserBalance >= 0
                   ? theme.palette.primary.dark
@@ -160,8 +148,9 @@ export default function GroupPage() {
         paddingBottom={3}
         minHeight={42}
         sx={{
-          borderBottom: "3px solid black",
-          bgcolor: purple[100],
+          borderBottom: "3px solid ",
+          borderColor: grey[600],
+          bgcolor: grey[300],
           height: 36,
         }}
       >
@@ -187,8 +176,8 @@ export default function GroupPage() {
               fontWeight: 600,
               backgroundColor: grey[300],
               "&:hover": {
-                borderColor: purple[500],
-                color: purple[700],
+                borderColor: theme.palette.primary.light,
+                color: theme.palette.primary.light,
                 backgroundColor: "transparent",
               },
             }}
