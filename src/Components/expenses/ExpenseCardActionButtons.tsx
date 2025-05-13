@@ -13,7 +13,6 @@ export function ExpenseCardActionButtons({
 }: ActionButtonsProps) {
   return (
     <Box
-      className="action-buttons"
       sx={{
         display: "flex",
         justifyContent: "center",

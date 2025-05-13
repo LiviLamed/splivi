@@ -48,7 +48,7 @@ export function ExpenseParticipants({
   const splitMode = watch("splitMode");
 
   const totalDebts = debts.reduce((acc, debt) => acc + debt.amount, 0);
-  const remaining = Math.round((amount - totalDebts) * 100) / 100;
+  const remaining = Math.round((amount - totalDebts) * 100) / 100; // 2 decimals
 
   return (
     <Controller

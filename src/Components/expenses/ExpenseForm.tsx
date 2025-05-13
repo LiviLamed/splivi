@@ -172,7 +172,7 @@ export default function ExpenseForm({
         required
         {...register("amount", {
           required: "Did you forget how much it was?",
-          min: { value: 0.01, message: "Must be greater than 0" },
+          min: { value: 0.01, message: "Must be greater than 0" }, // Value 0.01 to avoid error validation when presenting empty
         })}
         error={!!errors.amount}
         helperText={errors.amount?.message || ""}
